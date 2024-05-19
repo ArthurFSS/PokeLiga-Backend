@@ -2,6 +2,9 @@ function aplicarRegraNova(dadosFormatadosArray) {
 
     dadosFormatadosArray.forEach(jogador => {
       jogador.pontuacaoTotal -= jogador.pontuacaoMinima;
+      jogador.history.forEach(registro => {
+        registro.data = formatarData(registro.data);
+      });
     });
 
     dadosFormatadosArray.sort((a, b) => b.pontuacaoTotal - a.pontuacaoTotal);
@@ -11,6 +14,14 @@ function aplicarRegraNova(dadosFormatadosArray) {
     });
   
     return dadosFormatadosArray;
+  }
+
+function formatarData(data) {
+    const dataObj = new Date(data);
+    const dia = String(dataObj.getDate()).padStart(2, '0');
+    const mes = String(dataObj.getMonth() + 1).padStart(2, '0'); // Mês é base 0
+    const ano = dataObj.getFullYear();
+    return `${dia}/${mes}/${ano}`;
   }
 
 function aplicarRegra(dadosDoBanco) {
