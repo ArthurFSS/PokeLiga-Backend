@@ -20,6 +20,6 @@ app.get('/liga', (req, res) =>
         res.send('pegando os dados da liga')
     });
 
-app.listen(3000, () => {
+app.listen(port, () => {
     console.log('Rodando na porta 3000')
 })
