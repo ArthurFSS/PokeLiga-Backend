@@ -1,19 +1,28 @@
-import mysql from "mysql2"
+import mysql from "mysql2";
 
-const connection = mysql.createConnection({
-  host: process.env.HOST,
-  user: process.env.USER,
-  password: process.env.PASSWORD,      
-  database: process.env.DATABASE, 
-  port: 16168 
+const pool = mysql.createPool({
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PASSWORD,      
+    database: process.env.DATABASE, 
+    port: 16168,
+    connectionLimit: 10 
 });
 
-connection.connect((err) => {
-  if (err) {
-    console.error('Erro ao conectar ao banco de dados: ' + err.stack);
-    return;
-  }
-  console.log('Conectado ao banco de dados com sucesso. ID da conexão: ' + connection.threadId);
-});
-
-export default connection;
+// Agora você pode executar consultas usando o pool
+export const query = (sql, values) => {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) {
+        return reject(err);
+      }
+      connection.query(sql, values, (err, results) => {
+        connection.release(); // Libera a conexão de volta para o pool
+        if (err) {
+          return reject(err);
+        }
+        resolve(results);
+      });
+    });
+  });
+};
