@@ -20,10 +20,10 @@ function createData(posicao, nome, pontuacao) {
       pontuacao,
       history: [
         { data: '2020-01-05', pontuacao: '12' },
-        { data: '2020-01-05', pontuacao: '16' },
-        { data: '2020-01-05', pontuacao: '17' },
-        { data: '2020-01-05', pontuacao: '18' },
-        { data: '2020-01-05', pontuacao: '16' },
+        { data: '2020-01-06', pontuacao: '16' },
+        { data: '2020-01-07', pontuacao: '17' },
+        { data: '2020-01-08', pontuacao: '18' },
+        { data: '2020-01-09', pontuacao: '10' },
       ],
     };
   };
