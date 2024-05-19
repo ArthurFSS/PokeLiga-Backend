@@ -1,5 +1,7 @@
 import cors from "cors";
 import express from "express";
+import connection from './db.js';
+import aplicarRegra from './regras.js';
 
 const app = express();
 
@@ -8,36 +10,18 @@ app.use(cors());
 
 const port = process.env.PORT || 3001;
 
-app.get('/', (req, res) => 
-{
-    res.send('Teste liga')
-});
-
-function createData(posicao, nome, pontuacao) {
-    return {
-      posicao,
-      nome,
-      pontuacao,
-      history: [
-        { data: '2020-01-05', pontuacao: '12' },
-        { data: '2020-01-06', pontuacao: '16' },
-        { data: '2020-01-07', pontuacao: '17' },
-        { data: '2020-01-08', pontuacao: '18' },
-        { data: '2020-01-09', pontuacao: '10' },
-      ],
-    };
-  };
+app.get('/', (req, res) => {
+    console.log('Rodando na porta 3000')
+  });
 
 app.get('/liga', (req, res) => {
-const rows = [
-        createData(1, 'Arthur', 60),
-        createData(2, 'Dylan', 59),
-        createData(3, 'Gabriel', 55),
-        createData(4, 'Rica', 40),
-        createData(5, 'RenêRoots', 3),
-      ];
-
-res.send(rows)});
+    connection.query('SELECT * FROM Resultados', (error, results, fields) => {
+        if (error) {
+          return res.status(500).send('Erro ao executar a consulta: ' + error.stack);
+        }
+        res.json(aplicarRegra(results)); 
+      });
+});
 
 app.listen(port, () => {
     console.log('Rodando na porta 3000')
