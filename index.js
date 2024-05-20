@@ -16,8 +16,8 @@ app.get('/', (req, res) => {
     console.log('Rodando na porta 3000')
   });
   
-app.get('/liga', async (req, res) => {
-    res.json(aplicarRegra(await query('SELECT * FROM Resultados'))); 
+app.get('/liga/:id', async (req, res) => {
+    res.json(aplicarRegra(await query(`SELECT * FROM Resultados where liga = ${id}`))); 
 });
 
 app.get('/ligas', async (req, res) => {
@@ -25,5 +25,5 @@ app.get('/ligas', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log('Rodando na porta 3000')
+    console.log('Rodando')
 })
