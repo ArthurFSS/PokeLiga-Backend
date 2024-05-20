@@ -13,16 +13,9 @@ const dbConfig = {
     }
 };
 
-// user: process.env.USER,
-// host: process.env.HOST,
-// database: process.env.DATABASE,
-// password: process.env.PASSWORD,
-// Create a new PostgreSQL client
-const client = new Client(dbConfig);
-
-// Connect to the database
 export const query = async (query) => {
-  let result;
+    let result;
+    const client = new Client(dbConfig); // Create a new client for each query
     try {
         await client.connect();
         console.log('Connected to PostgreSQL database');
@@ -36,5 +29,7 @@ export const query = async (query) => {
         return result.rows;
     } catch (err) {
         console.error('Error connecting to PostgreSQL database', err);
+    } finally {
+        await client.end(); // Ensure the client is closed even if there's an error
     }
 };
