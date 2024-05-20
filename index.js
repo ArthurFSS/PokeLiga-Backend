@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
   });
   
 app.get('/liga/:id', async (req, res) => {
+    const id = req.params.id;
     res.json(aplicarRegra(await query(`SELECT * FROM Resultados where liga = ${id}`))); 
 });
 
