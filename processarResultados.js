@@ -58,19 +58,14 @@ async function processarLiga(data, ligaId) {
         const resultadosArray = Object.values(resultados);
 
         // Construir a consulta de inserção
-        const valores = resultadosArray.map(({ nome, pontos, liga }) => `('${nome}', ${pontos}, '${liga}', '${data}')`).join(', ');
+        const valores = resultadosArray.map(({ nome, pontos, liga }) => `('${nome.toUpperCase()}', ${pontos}, '${liga}', '${data}')`).join(', ');
         
         const queryStr = `
             INSERT INTO resultados (nome, pontos, liga, data) 
             VALUES ${valores}
         `;
-
-        console.log(queryStr)
         
         await query(queryStr);
-        
-
-
 
         return { message: 'Resultados processados e inseridos com sucesso.' };
     } catch (error) {
